@@ -36,4 +36,13 @@ public class ParkingBoyTest {
         Assert.assertEquals(null, returnedCar);
     }
 
+    @Test
+    public void should_return_null_when_packingBoy_fetch_car_has_already_fetched_out() {
+        ParkingBoy parkingBoy = new ParkingBoy();
+        Car carToPark = new Car();
+        ParkingTicket parkingTicket = parkingBoy.park(carToPark);
+        Car returnedCar = parkingBoy.fetch(parkingTicket);
+        Car returnedCar2 = parkingBoy.fetch(parkingTicket);
+        Assert.assertEquals(null, returnedCar2);
+    }
 }
