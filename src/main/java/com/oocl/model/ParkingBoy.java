@@ -1,11 +1,15 @@
 package com.oocl.model;
 
+import java.util.ArrayList;
+
 public class ParkingBoy {
 
     private ParkingLot parkingLot;
+    private ArrayList<ParkingTicket> parkingTickets;
 
     public ParkingBoy() {
         this.parkingLot = new ParkingLot();
+        this.parkingTickets = new ArrayList<ParkingTicket>();
     }
 
     public ParkingTicket park(Car car) {
@@ -14,10 +18,17 @@ public class ParkingBoy {
             System.out.println("Not enough position.");
             return null;
         }
-        return new ParkingTicket(parkedAtSlot);
+        ParkingTicket ticket = new ParkingTicket(parkedAtSlot);
+        parkingTickets.add(ticket);
+        return ticket;
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
+        if (!isValidTicket(parkingTicket)) return null;
         return parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
+    }
+
+    private boolean isValidTicket(ParkingTicket parkingTicket) {
+        return parkingTickets.contains(parkingTicket);
     }
 }
