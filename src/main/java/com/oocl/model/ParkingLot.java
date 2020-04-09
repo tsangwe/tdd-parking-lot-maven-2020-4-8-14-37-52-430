@@ -1,22 +1,22 @@
 package com.oocl.model;
 
-public class CarPark {
+public class ParkingLot {
     private static final int TOTAL_SLOT_NUM = 10;
     private Car[] slots;
 
 
-    public CarPark() {
+    public ParkingLot() {
         slots = new Car[TOTAL_SLOT_NUM];
     }
 
-    public boolean park(Car car) {
+    public Integer park(Car car) {
         for (int slotNumber = 0; slotNumber < TOTAL_SLOT_NUM; slotNumber++) {
             if (slots[slotNumber] == null) {
                 slots[slotNumber] = car;
-                return true;
+                return slotNumber;
             }
         }
-        return false;
+        return null;
     }
 
     public Car getCarBySlotNumber(int slotNumber) {
@@ -25,5 +25,14 @@ public class CarPark {
 
     public Car[] getSlots() {
         return this.slots;
+    }
+
+    public Car returnCar(int slotNumber) {
+        Car car = slots[slotNumber];
+        if (car == null) {
+            System.out.println("Invalid ticket");
+        }
+        slots[slotNumber] = null;
+        return car;
     }
 }
