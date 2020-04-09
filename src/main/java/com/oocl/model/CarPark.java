@@ -22,4 +22,8 @@ public class CarPark {
     public Car getCarBySlotNumber(int slotNumber) {
         return slots[slotNumber];
     }
+
+    public Car[] getSlots() {
+        return this.slots;
+    }
 }

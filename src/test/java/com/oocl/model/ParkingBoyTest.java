@@ -12,5 +12,4 @@ public class ParkingBoyTest {
         Assert.assertEquals(ParkingTicket.class, parkingTicket.getClass());
     }
 
-
 }
