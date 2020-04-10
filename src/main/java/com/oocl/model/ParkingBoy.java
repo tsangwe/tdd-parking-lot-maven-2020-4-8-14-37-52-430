@@ -2,27 +2,54 @@ package com.oocl.model;
 
 import com.oocl.util.customException.InvalidTicketException;
 import com.oocl.util.customException.MissingTicketException;
+import com.oocl.util.customException.ParkingBoyNoLotException;
 import com.oocl.util.customException.ParkingLotIsFullException;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ParkingBoy {
     private static final int PARKING_LOT_CAPACITY = 10;
-    private ParkingLot parkingLot;
+    private ArrayList<ParkingLot> parkingLots;
     private ArrayList<ParkingTicket> parkingTickets;
 
     public ParkingBoy() {
-        this.parkingLot = new ParkingLot(PARKING_LOT_CAPACITY);
+        this.parkingLots = new ArrayList<ParkingLot>();
         this.parkingTickets = new ArrayList<ParkingTicket>();
+    }
+
+    protected void manageParkingLot(ParkingLot parkingLot) {
+        this.parkingLots.add(parkingLot);
+    }
+
+    public ParkingLot selectParkingLot() throws ParkingLotIsFullException {
+        List<ParkingLot> nonFullParkingLots = parkingLots.stream().filter(parkingLot -> !parkingLot.isFull()).collect(Collectors.toList());
+        if (!nonFullParkingLots.isEmpty()) {
+            return nonFullParkingLots.get(0);
+        }
+        throw new ParkingLotIsFullException();
+    }
+
+    public ParkingLot getManagingParkingLotById(int id) {
+        List<ParkingLot> parkingLotsMatchedWithId = parkingLots.stream().filter(parkingLot -> parkingLot.getId() == id).collect(Collectors.toList());
+        if (!parkingLotsMatchedWithId.isEmpty()) {
+            return parkingLotsMatchedWithId.get(0);
+        }
+        return null;
     }
 
     public ParkingTicket park(Car car) {
         try {
-            Integer parkedAtSlot = parkingLot.park(car);
-            ParkingTicket ticket = new ParkingTicket(parkedAtSlot);
+            if (this.parkingLots.isEmpty()) throw new ParkingBoyNoLotException();
+            ParkingLot selectedParkingLot = selectParkingLot();
+            Integer parkedAtSlot = selectedParkingLot.park(car);
+            ParkingTicket ticket = new ParkingTicket(selectedParkingLot.getId(), parkedAtSlot);
             parkingTickets.add(ticket);
             return ticket;
         } catch (ParkingLotIsFullException e) {
+            return null;
+        } catch (ParkingBoyNoLotException e) {
             return null;
         }
     }
@@ -30,6 +57,7 @@ public class ParkingBoy {
     public Car fetch(ParkingTicket parkingTicket) {
         try {
             if (ticketProvided(parkingTicket) && isValidTicket(parkingTicket)) {
+                ParkingLot parkingLot = getManagingParkingLotById(parkingTicket.getParkingLotId());
                 Car returningCar = parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
                 if (returningCar != null) parkingTickets.remove(parkingTicket);
                 return returningCar;

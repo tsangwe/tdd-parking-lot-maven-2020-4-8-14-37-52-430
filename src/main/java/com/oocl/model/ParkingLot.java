@@ -3,11 +3,13 @@ package com.oocl.model;
 import com.oocl.util.customException.ParkingLotIsFullException;
 
 public class ParkingLot {
+    private int id;
     private int capacity;
     private Car[] slots;
 
 
-    public ParkingLot(int capacity) {
+    public ParkingLot(int id, int capacity) {
+        this.id = id;
         this.capacity = capacity;
         slots = new Car[capacity];
     }
@@ -22,14 +24,6 @@ public class ParkingLot {
         throw new ParkingLotIsFullException();
     }
 
-    public Car getCarBySlotNumber(int slotNumber) {
-        return slots[slotNumber];
-    }
-
-    public Car[] getSlots() {
-        return this.slots;
-    }
-
     public Car returnCar(int slotNumber) {
         Car car = slots[slotNumber];
         if (car == null) {
@@ -38,4 +32,30 @@ public class ParkingLot {
         slots[slotNumber] = null;
         return car;
     }
+
+    public Car getCarBySlotNumber(int slotNumber) {
+        return slots[slotNumber];
+    }
+
+    public Car[] getSlots() {
+        return this.slots;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public boolean isFull() {
+        for (int slotNumber = 0; slotNumber < capacity; slotNumber++) {
+            if (slots[slotNumber] == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

@@ -3,25 +3,35 @@ package com.oocl.model;
 import com.oocl.util.customException.InvalidTicketException;
 import com.oocl.util.customException.MissingTicketException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class ParkingBoyTest {
+    private ParkingBoy parkingBoy;
+    private ParkingLot parkingLot;
+    private ServiceManager serviceManager;
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
+    @Before
+    public void init() {
+        parkingBoy = new ParkingBoy();
+        parkingLot = new ParkingLot(1, 10);
+        serviceManager = new ServiceManager();
+        serviceManager.assignParkingLotToParkingBoy(parkingBoy, parkingLot);
+    }
+
     @Test
     public void should_return_parkingTicket_when_park_car() {
-        ParkingBoy parkingBoy = new ParkingBoy();
         ParkingTicket parkingTicket = parkingBoy.park(new Car());
         Assert.assertEquals(ParkingTicket.class, parkingTicket.getClass());
     }
 
     @Test
     public void should_return_parkingTicket_for_each_when_park_multiple_car() {
-        ParkingBoy parkingBoy = new ParkingBoy();
         Assert.assertEquals(ParkingTicket.class, parkingBoy.park(new Car()).getClass());
         Assert.assertEquals(ParkingTicket.class, parkingBoy.park(new Car()).getClass());
         Assert.assertEquals(ParkingTicket.class, parkingBoy.park(new Car()).getClass());
@@ -29,7 +39,6 @@ public class ParkingBoyTest {
 
     @Test
     public void should_return_null_when_park_car_to_parkingLot_that_full() {
-        ParkingBoy parkingBoy = new ParkingBoy();
         for (int index = 0; index < parkingBoy.getParkingLotCapacity(); index++) {
             parkingBoy.park(new Car());
         }
@@ -39,7 +48,6 @@ public class ParkingBoyTest {
 
     @Test
     public void should_return_car_when_parkingBoy_fetch_with_valid_ticket() {
-        ParkingBoy parkingBoy = new ParkingBoy();
         Car carToPark = new Car();
         ParkingTicket parkingTicket = parkingBoy.park(carToPark);
         Car returnedCar = parkingBoy.fetch(parkingTicket);
@@ -48,14 +56,12 @@ public class ParkingBoyTest {
 
     @Test
     public void should_return_null_when_parkingBoy_fetch_with_invalid_ticket() {
-        ParkingBoy parkingBoy = new ParkingBoy();
-        Car returnedCar = parkingBoy.fetch(new ParkingTicket(2));
+        Car returnedCar = parkingBoy.fetch(new ParkingTicket(1, 2));
         Assert.assertEquals(null, returnedCar);
     }
 
     @Test
     public void should_return_null_when_parkingBoy_fetch_car_has_already_fetched_out() {
-        ParkingBoy parkingBoy = new ParkingBoy();
         Car carToPark = new Car();
         ParkingTicket parkingTicket = parkingBoy.park(carToPark);
         Car returnedCar = parkingBoy.fetch(parkingTicket);
@@ -65,8 +71,6 @@ public class ParkingBoyTest {
 
     @Test
     public void should_throw_missingTicketException_when_parkingBoy_fetch_car_without_ticket() throws MissingTicketException {
-        ParkingBoy parkingBoy = new ParkingBoy();
-
         exceptionRule.expect(MissingTicketException.class);
         exceptionRule.expectMessage("Please provide your parking ticket.");
         parkingBoy.ticketProvided(null);
@@ -74,9 +78,7 @@ public class ParkingBoyTest {
 
     @Test
     public void should_throw_exception_when_parkingBoy_fetch_car_with_invalid_ticket() throws InvalidTicketException {
-        ParkingBoy parkingBoy = new ParkingBoy();
-        ParkingTicket parkingTicket = new ParkingTicket(99);
-
+        ParkingTicket parkingTicket = new ParkingTicket(1, 99);
         exceptionRule.expect(InvalidTicketException.class);
         exceptionRule.expectMessage("Unrecognized parking ticket.");
         parkingBoy.isValidTicket(parkingTicket);
