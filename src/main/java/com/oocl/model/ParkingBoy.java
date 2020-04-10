@@ -29,7 +29,7 @@ public class ParkingBoy {
         if (!isValidTicket(parkingTicket)) return null;
         Car returningCar = parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
         if (returningCar != null) parkingTickets.remove(parkingTicket);
-        return parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
+        return returningCar;
     }
 
     private boolean isValidTicket(ParkingTicket parkingTicket) {
