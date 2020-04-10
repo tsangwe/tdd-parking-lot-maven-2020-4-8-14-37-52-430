@@ -1,5 +1,7 @@
 package com.oocl.model;
 
+import com.oocl.util.customException.ParkingLotIsFullException;
+
 import java.util.ArrayList;
 
 public class ParkingBoy {
@@ -13,18 +15,20 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        Integer parkedAtSlot = parkingLot.park(car);
-        if (parkedAtSlot == null) {
-            System.out.println("Not enough position.");
+        try {
+            Integer parkedAtSlot = parkingLot.park(car);
+            ParkingTicket ticket = new ParkingTicket(parkedAtSlot);
+            parkingTickets.add(ticket);
+            return ticket;
+        } catch (ParkingLotIsFullException e) {
             return null;
         }
-        ParkingTicket ticket = new ParkingTicket(parkedAtSlot);
-        parkingTickets.add(ticket);
-        return ticket;
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
         if (!isValidTicket(parkingTicket)) return null;
+        Car returningCar = parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
+        if (returningCar != null) parkingTickets.remove(parkingTicket);
         return parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
     }
 
