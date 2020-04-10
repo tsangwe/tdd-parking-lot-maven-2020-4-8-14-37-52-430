@@ -35,4 +35,8 @@ public class ParkingBoy {
     private boolean isValidTicket(ParkingTicket parkingTicket) {
         return parkingTickets.contains(parkingTicket);
     }
+
+    public static int getParkingLotCapacity() {
+        return PARKING_LOT_CAPACITY;
+    }
 }

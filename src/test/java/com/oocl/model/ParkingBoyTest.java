@@ -21,6 +21,16 @@ public class ParkingBoyTest {
     }
 
     @Test
+    public void should_return_null_when_park_car_to_parkingLot_that_full() {
+        ParkingBoy parkingBoy = new ParkingBoy();
+        for (int index = 0; index < parkingBoy.getParkingLotCapacity(); index++) {
+            parkingBoy.park(new Car());
+        }
+        ParkingTicket parkingTicket = parkingBoy.park(new Car());
+        Assert.assertEquals(null, parkingTicket);
+    }
+
+    @Test
     public void should_return_car_when_packingBoy_fetch_with_valid_ticket() {
         ParkingBoy parkingBoy = new ParkingBoy();
         Car carToPark = new Car();
