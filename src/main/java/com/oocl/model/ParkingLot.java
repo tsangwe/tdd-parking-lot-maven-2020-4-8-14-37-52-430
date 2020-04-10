@@ -3,16 +3,17 @@ package com.oocl.model;
 import com.oocl.util.customException.ParkingLotIsFullException;
 
 public class ParkingLot {
-    private static final int TOTAL_SLOT_NUM = 10;
+    private int capacity;
     private Car[] slots;
 
 
-    public ParkingLot() {
-        slots = new Car[TOTAL_SLOT_NUM];
+    public ParkingLot(int capacity) {
+        this.capacity = capacity;
+        slots = new Car[capacity];
     }
 
     public Integer park(Car car) throws ParkingLotIsFullException {
-        for (int slotNumber = 0; slotNumber < TOTAL_SLOT_NUM; slotNumber++) {
+        for (int slotNumber = 0; slotNumber < capacity; slotNumber++) {
             if (slots[slotNumber] == null) {
                 slots[slotNumber] = car;
                 return slotNumber;

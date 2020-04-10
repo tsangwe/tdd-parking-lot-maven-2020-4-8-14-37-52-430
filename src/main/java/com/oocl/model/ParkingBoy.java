@@ -5,12 +5,12 @@ import com.oocl.util.customException.ParkingLotIsFullException;
 import java.util.ArrayList;
 
 public class ParkingBoy {
-
+    private static final int PARKING_LOT_CAPACITY = 10;
     private ParkingLot parkingLot;
     private ArrayList<ParkingTicket> parkingTickets;
 
     public ParkingBoy() {
-        this.parkingLot = new ParkingLot();
+        this.parkingLot = new ParkingLot(PARKING_LOT_CAPACITY);
         this.parkingTickets = new ArrayList<ParkingTicket>();
     }
 
