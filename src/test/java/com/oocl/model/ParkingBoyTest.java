@@ -1,5 +1,6 @@
 package com.oocl.model;
 
+import com.oocl.util.customException.InvalidTicketException;
 import com.oocl.util.customException.MissingTicketException;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -71,4 +72,13 @@ public class ParkingBoyTest {
         parkingBoy.ticketProvided(null);
     }
 
+    @Test
+    public void should_throw_exception_when_parkingBoy_fetch_car_with_invalid_ticket() throws InvalidTicketException {
+        ParkingBoy parkingBoy = new ParkingBoy();
+        ParkingTicket parkingTicket = new ParkingTicket(99);
+
+        exceptionRule.expect(InvalidTicketException.class);
+        exceptionRule.expectMessage("Unrecognized parking ticket.");
+        parkingBoy.isValidTicket(parkingTicket);
+    }
 }
