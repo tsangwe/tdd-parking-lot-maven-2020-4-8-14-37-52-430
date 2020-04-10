@@ -19,7 +19,7 @@ public class ParkingLot {
                 return slotNumber;
             }
         }
-        throw new ParkingLotIsFullException("Not enough position.");
+        throw new ParkingLotIsFullException();
     }
 
     public Car getCarBySlotNumber(int slotNumber) {

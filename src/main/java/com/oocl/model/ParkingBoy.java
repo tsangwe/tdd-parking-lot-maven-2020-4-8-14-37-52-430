@@ -1,5 +1,7 @@
 package com.oocl.model;
 
+import com.oocl.util.customException.InvalidTicketException;
+import com.oocl.util.customException.MissingTicketException;
 import com.oocl.util.customException.ParkingLotIsFullException;
 
 import java.util.ArrayList;
@@ -26,17 +28,32 @@ public class ParkingBoy {
     }
 
     public Car fetch(ParkingTicket parkingTicket) {
-        if (!isValidTicket(parkingTicket)) return null;
-        Car returningCar = parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
-        if (returningCar != null) parkingTickets.remove(parkingTicket);
-        return returningCar;
+        try {
+            if (ticketProvided(parkingTicket) && isValidTicket(parkingTicket)) {
+                Car returningCar = parkingLot.returnCar(parkingTicket.decodeTicketToSlotNumber());
+                if (returningCar != null) parkingTickets.remove(parkingTicket);
+                return returningCar;
+            }
+            return null;
+        } catch (MissingTicketException e) {
+            return null;
+        } catch (InvalidTicketException e) {
+            return null;
+        }
     }
 
-    private boolean isValidTicket(ParkingTicket parkingTicket) {
-        return parkingTickets.contains(parkingTicket);
+    public boolean ticketProvided(ParkingTicket parkingTicket) throws MissingTicketException {
+        if (parkingTicket == null) throw new MissingTicketException();
+        return true;
+    }
+
+    public boolean isValidTicket(ParkingTicket parkingTicket) throws InvalidTicketException {
+        if (!this.parkingTickets.contains(parkingTicket)) throw new InvalidTicketException();
+        return true;
     }
 
     public static int getParkingLotCapacity() {
         return PARKING_LOT_CAPACITY;
     }
+
 }

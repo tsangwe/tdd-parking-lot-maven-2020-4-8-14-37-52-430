@@ -1,7 +1,9 @@
 package com.oocl.util.customException;
 
 public class ParkingLotIsFullException extends Exception {
-    public ParkingLotIsFullException(String errorMessage) {
-        super(errorMessage);
+    private static final String ERROR_MESSAGE = "Not enough position.";
+
+    public ParkingLotIsFullException() {
+        super(ERROR_MESSAGE);
     }
 }

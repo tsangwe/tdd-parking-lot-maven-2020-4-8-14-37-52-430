@@ -1,9 +1,15 @@
 package com.oocl.model;
 
+import com.oocl.util.customException.MissingTicketException;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class ParkingBoyTest {
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void should_return_parkingTicket_when_park_car() {
@@ -31,7 +37,7 @@ public class ParkingBoyTest {
     }
 
     @Test
-    public void should_return_car_when_packingBoy_fetch_with_valid_ticket() {
+    public void should_return_car_when_parkingBoy_fetch_with_valid_ticket() {
         ParkingBoy parkingBoy = new ParkingBoy();
         Car carToPark = new Car();
         ParkingTicket parkingTicket = parkingBoy.park(carToPark);
@@ -40,14 +46,14 @@ public class ParkingBoyTest {
     }
 
     @Test
-    public void should_return_null_when_packingBoy_fetch_with_invalid_ticket() {
+    public void should_return_null_when_parkingBoy_fetch_with_invalid_ticket() {
         ParkingBoy parkingBoy = new ParkingBoy();
         Car returnedCar = parkingBoy.fetch(new ParkingTicket(2));
         Assert.assertEquals(null, returnedCar);
     }
 
     @Test
-    public void should_return_null_when_packingBoy_fetch_car_has_already_fetched_out() {
+    public void should_return_null_when_parkingBoy_fetch_car_has_already_fetched_out() {
         ParkingBoy parkingBoy = new ParkingBoy();
         Car carToPark = new Car();
         ParkingTicket parkingTicket = parkingBoy.park(carToPark);
@@ -55,4 +61,14 @@ public class ParkingBoyTest {
         Car returnedCar2 = parkingBoy.fetch(parkingTicket);
         Assert.assertEquals(null, returnedCar2);
     }
+
+    @Test
+    public void should_throw_missingTicketException_when_parkingBoy_fetch_car_without_ticket() throws MissingTicketException {
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        exceptionRule.expect(MissingTicketException.class);
+        exceptionRule.expectMessage("Please provide your parking ticket.");
+        parkingBoy.ticketProvided(null);
+    }
+
 }
