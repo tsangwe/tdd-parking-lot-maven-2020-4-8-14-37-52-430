@@ -55,4 +55,13 @@ public class ParkingLot {
         return true;
     }
 
+    public int getEmptySpace() {
+        int countEmptySpace = 0;
+        for (int slotNumber = 0; slotNumber < getCapacity(); slotNumber++) {
+            if (slots[slotNumber] == null) {
+                countEmptySpace++;
+            }
+        }
+        return countEmptySpace;
+    }
 }

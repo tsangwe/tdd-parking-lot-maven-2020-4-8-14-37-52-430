@@ -10,6 +10,7 @@ public class NotSmartParkingBoy extends ParkingBoy {
         super();
     }
 
+    @Override
     public ParkingLot selectParkingLot() throws ParkingLotIsFullException {
         List<ParkingLot> nonFullParkingLots = this.parkingLots.stream().filter(parkingLot -> !parkingLot.isFull()).collect(Collectors.toList());
         if (!nonFullParkingLots.isEmpty()) {

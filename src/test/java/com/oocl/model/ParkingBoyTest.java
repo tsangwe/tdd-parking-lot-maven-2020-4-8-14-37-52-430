@@ -12,7 +12,7 @@ public class ParkingBoyTest {
     public static final int CAPACITY = 10;
     private ParkingBoy parkingBoy;
     private ParkingLot parkingLot;
-    private ServiceManager serviceManager;
+    private ServiceManager serviceManager = new ServiceManager();
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
@@ -21,7 +21,6 @@ public class ParkingBoyTest {
     public void init() {
         parkingBoy = new NotSmartParkingBoy();
         parkingLot = new ParkingLot(1, CAPACITY);
-        serviceManager = new ServiceManager();
         serviceManager.assignParkingLotToParkingBoy(parkingBoy, parkingLot);
     }
 
