@@ -19,7 +19,7 @@ public class ParkingBoyTest {
 
     @Before
     public void init() {
-        parkingBoy = new ParkingBoy();
+        parkingBoy = new NotSmartParkingBoy();
         parkingLot = new ParkingLot(1, CAPACITY);
         serviceManager = new ServiceManager();
         serviceManager.assignParkingLotToParkingBoy(parkingBoy, parkingLot);
@@ -40,7 +40,7 @@ public class ParkingBoyTest {
 
     @Test
     public void should_return_null_when_park_car_to_parkingLot_that_full() {
-        for (int index = 0; index < parkingBoy.getParkingLotCapacity(); index++) {
+        for (int index = 0; index < parkingLot.getCapacity(); index++) {
             parkingBoy.park(new Car());
         }
         ParkingTicket parkingTicket = parkingBoy.park(new Car());

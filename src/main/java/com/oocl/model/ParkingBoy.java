@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ParkingBoy {
-    private static final int PARKING_LOT_CAPACITY = 10;
-    private ArrayList<ParkingLot> parkingLots;
+public abstract class ParkingBoy {
+    protected ArrayList<ParkingLot> parkingLots;
     private ArrayList<ParkingTicket> parkingTickets;
 
     public ParkingBoy() {
@@ -23,13 +22,7 @@ public class ParkingBoy {
         this.parkingLots.add(parkingLot);
     }
 
-    public ParkingLot selectParkingLot() throws ParkingLotIsFullException {
-        List<ParkingLot> nonFullParkingLots = parkingLots.stream().filter(parkingLot -> !parkingLot.isFull()).collect(Collectors.toList());
-        if (!nonFullParkingLots.isEmpty()) {
-            return nonFullParkingLots.get(0);
-        }
-        throw new ParkingLotIsFullException();
-    }
+    public abstract ParkingLot selectParkingLot() throws ParkingLotIsFullException;
 
     public ParkingLot getManagingParkingLotById(int id) {
         List<ParkingLot> parkingLotsMatchedWithId = parkingLots.stream().filter(parkingLot -> parkingLot.getId() == id).collect(Collectors.toList());
@@ -78,10 +71,6 @@ public class ParkingBoy {
     public boolean isValidTicket(ParkingTicket parkingTicket) throws InvalidTicketException {
         if (!this.parkingTickets.contains(parkingTicket)) throw new InvalidTicketException();
         return true;
-    }
-
-    public static int getParkingLotCapacity() {
-        return PARKING_LOT_CAPACITY;
     }
 
 }
