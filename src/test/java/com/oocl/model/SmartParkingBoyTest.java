@@ -41,19 +41,19 @@ public class SmartParkingBoyTest {
         assertEquals(secondParkingLot, parkingBoy.selectParkingLot());
     }
 
-//    @Test
-//    public void should_return_secondParkingLot_when_all_ParkingLot_is_full() throws ParkingLotIsFullException {
-//        secondParkingLot = new ParkingLot(2, CAPACITY);
-//        Car car = new Car();
-//        for (int count = 0; count < CAPACITY; count++) {
-//            firstParkingLot.park(car);
-//            secondParkingLot.park(car);
-//        }
-//        serviceManager.assignParkingLotToParkingBoy(parkingBoy, firstParkingLot);
-//        serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
-//        exceptionRule.expect(ParkingLotIsFullException.class);
-//        exceptionRule.expectMessage("Not enough position.");
-//        parkingBoy.selectParkingLot();
-//    }
+    @Test
+    public void should_return_secondParkingLot_when_all_ParkingLot_is_full() throws ParkingLotIsFullException {
+        secondParkingLot = new ParkingLot(2, CAPACITY);
+        Car car = new Car();
+        for (int count = 0; count < CAPACITY; count++) {
+            firstParkingLot.park(car);
+            secondParkingLot.park(car);
+        }
+        serviceManager.assignParkingLotToParkingBoy(parkingBoy, firstParkingLot);
+        serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
+        exceptionRule.expect(ParkingLotIsFullException.class);
+        exceptionRule.expectMessage("Not enough position.");
+        parkingBoy.selectParkingLot();
+    }
 
 }
