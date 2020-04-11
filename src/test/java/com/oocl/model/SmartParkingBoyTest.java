@@ -42,7 +42,7 @@ public class SmartParkingBoyTest {
     }
 
     @Test
-    public void should_return_secondParkingLot_when_all_ParkingLot_is_full() throws ParkingLotIsFullException {
+    public void should_throw_ParkingLotIsFullException_when_all_ParkingLot_is_full() throws ParkingLotIsFullException {
         secondParkingLot = new ParkingLot(2, CAPACITY);
         Car car = new Car();
         for (int count = 0; count < CAPACITY; count++) {
