@@ -4,8 +4,8 @@ import com.oocl.util.customException.ParkingLotIsFullException;
 
 import java.util.Comparator;
 
-public class SmartParkingBoy extends ParkingBoy {
-    public SmartParkingBoy() {
+public class SuperSmartParkingBoy extends ParkingBoy {
+    public SuperSmartParkingBoy() {
         super();
     }
 
@@ -13,7 +13,7 @@ public class SmartParkingBoy extends ParkingBoy {
     protected ParkingLot selectParkingLot() throws ParkingLotIsFullException {
         ParkingLot selectedParkingLots = this.parkingLots.stream()
                 .filter(parkingLot -> !parkingLot.isFull())
-                .max(Comparator.comparing(ParkingLot::getEmptySpaceCount))
+                .max(Comparator.comparing(ParkingLot::computerAvailablePositionRate))
                 .orElseGet(() -> parkingLots.get(0));
         if (!selectedParkingLots.isFull()) {
             return selectedParkingLots;

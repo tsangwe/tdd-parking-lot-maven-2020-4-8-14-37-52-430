@@ -55,7 +55,7 @@ public class ParkingLot {
         return true;
     }
 
-    public int getEmptySpace() {
+    public int getEmptySpaceCount() {
         int countEmptySpace = 0;
         for (int slotNumber = 0; slotNumber < getCapacity(); slotNumber++) {
             if (slots[slotNumber] == null) {
@@ -63,5 +63,9 @@ public class ParkingLot {
             }
         }
         return countEmptySpace;
+    }
+
+    public double computerAvailablePositionRate() {
+        return this.getEmptySpaceCount() / (double) this.getCapacity();
     }
 }

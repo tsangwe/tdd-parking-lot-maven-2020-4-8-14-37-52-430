@@ -9,7 +9,7 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.assertEquals;
 
 public class SmartParkingBoyTest {
-    public static final int CAPACITY = 3;
+    private static final int CAPACITY = 3;
     private ParkingBoy parkingBoy;
     private ParkingLot firstParkingLot;
     private ParkingLot secondParkingLot;
@@ -22,12 +22,12 @@ public class SmartParkingBoyTest {
     public void init() {
         parkingBoy = new SmartParkingBoy();
         firstParkingLot = new ParkingLot(1, CAPACITY);
+        secondParkingLot = new ParkingLot(2, CAPACITY);
         serviceManager = new ServiceManager();
     }
 
     @Test
     public void should_return_firstParkingLot_when_both_parkingLot_empty_space_are_same() throws ParkingLotIsFullException {
-        secondParkingLot = new ParkingLot(2, CAPACITY);
         serviceManager.assignParkingLotToParkingBoy(parkingBoy, firstParkingLot);
         serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
         assertEquals(firstParkingLot, parkingBoy.selectParkingLot());
@@ -43,7 +43,6 @@ public class SmartParkingBoyTest {
 
     @Test
     public void should_throw_ParkingLotIsFullException_when_all_ParkingLot_is_full() throws ParkingLotIsFullException {
-        secondParkingLot = new ParkingLot(2, CAPACITY);
         Car car = new Car();
         for (int count = 0; count < CAPACITY; count++) {
             firstParkingLot.park(car);
