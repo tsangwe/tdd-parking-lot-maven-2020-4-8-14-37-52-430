@@ -10,12 +10,12 @@ public class SmartParkingBoy extends ParkingBoy {
     }
 
     @Override
-    public ParkingLot selectParkingLot() throws ParkingLotIsFullException {
+    protected ParkingLot selectParkingLot() throws ParkingLotIsFullException {
         ParkingLot selectedParkingLots = this.parkingLots.stream()
                 .filter(parkingLot -> !parkingLot.isFull())
                 .max(Comparator.comparing(ParkingLot::getEmptySpace))
                 .orElseGet(() -> parkingLots.get(0));
-        if (selectedParkingLots != null) {
+        if (!selectedParkingLots.isFull()) {
             return selectedParkingLots;
         }
         throw new ParkingLotIsFullException();

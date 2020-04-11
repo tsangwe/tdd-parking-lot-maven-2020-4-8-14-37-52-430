@@ -2,7 +2,9 @@ package com.oocl.model;
 
 import com.oocl.util.customException.ParkingLotIsFullException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +14,9 @@ public class SmartParkingBoyTest {
     private ParkingLot firstParkingLot;
     private ParkingLot secondParkingLot;
     private ServiceManager serviceManager;
+
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Before
     public void init() {
@@ -28,12 +33,27 @@ public class SmartParkingBoyTest {
         assertEquals(firstParkingLot, parkingBoy.selectParkingLot());
     }
 
+    @Test
+    public void should_return_secondParkingLot_when_more_empty_space_in_secondParkingLot() throws ParkingLotIsFullException {
+        secondParkingLot = new ParkingLot(2, CAPACITY + 1);
+        serviceManager.assignParkingLotToParkingBoy(parkingBoy, firstParkingLot);
+        serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
+        assertEquals(secondParkingLot, parkingBoy.selectParkingLot());
+    }
+
 //    @Test
-//    public void should_return_parkingLot_when_more_empty_space_in_parkingLot() {
-//        parkingLot = new ParkingLot(1, CAPACITY);
+//    public void should_return_secondParkingLot_when_all_ParkingLot_is_full() throws ParkingLotIsFullException {
 //        secondParkingLot = new ParkingLot(2, CAPACITY);
-//        serviceManager.assignParkingLotToParkingBoy(parkingBoy, parkingLot);
+//        Car car = new Car();
+//        for (int count = 0; count < CAPACITY; count++) {
+//            firstParkingLot.park(car);
+//            secondParkingLot.park(car);
+//        }
+//        serviceManager.assignParkingLotToParkingBoy(parkingBoy, firstParkingLot);
 //        serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
+//        exceptionRule.expect(ParkingLotIsFullException.class);
+//        exceptionRule.expectMessage("Not enough position.");
+//        parkingBoy.selectParkingLot();
 //    }
 
 }

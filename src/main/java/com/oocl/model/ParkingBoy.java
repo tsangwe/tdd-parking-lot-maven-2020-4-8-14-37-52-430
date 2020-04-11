@@ -22,7 +22,7 @@ public abstract class ParkingBoy {
         this.parkingLots.add(parkingLot);
     }
 
-    public abstract ParkingLot selectParkingLot() throws ParkingLotIsFullException;
+    protected abstract ParkingLot selectParkingLot() throws ParkingLotIsFullException;
 
     public ParkingLot getManagingParkingLotById(int id) {
         List<ParkingLot> parkingLotsMatchedWithId = parkingLots.stream().filter(parkingLot -> parkingLot.getId() == id).collect(Collectors.toList());
@@ -63,12 +63,12 @@ public abstract class ParkingBoy {
         }
     }
 
-    public boolean ticketProvided(ParkingTicket parkingTicket) throws MissingTicketException {
+    protected boolean ticketProvided(ParkingTicket parkingTicket) throws MissingTicketException {
         if (parkingTicket == null) throw new MissingTicketException();
         return true;
     }
 
-    public boolean isValidTicket(ParkingTicket parkingTicket) throws InvalidTicketException {
+    protected boolean isValidTicket(ParkingTicket parkingTicket) throws InvalidTicketException {
         if (!this.parkingTickets.contains(parkingTicket)) throw new InvalidTicketException();
         return true;
     }
