@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class ParkingBoyTest {
+    public static final int CAPACITY = 10;
     private ParkingBoy parkingBoy;
     private ParkingLot parkingLot;
     private ServiceManager serviceManager;
@@ -19,7 +20,7 @@ public class ParkingBoyTest {
     @Before
     public void init() {
         parkingBoy = new ParkingBoy();
-        parkingLot = new ParkingLot(1, 10);
+        parkingLot = new ParkingLot(1, CAPACITY);
         serviceManager = new ServiceManager();
         serviceManager.assignParkingLotToParkingBoy(parkingBoy, parkingLot);
     }
@@ -82,5 +83,21 @@ public class ParkingBoyTest {
         exceptionRule.expect(InvalidTicketException.class);
         exceptionRule.expectMessage("Unrecognized parking ticket.");
         parkingBoy.isValidTicket(parkingTicket);
+    }
+
+    @Test
+    public void should_park_car_sequentially_when_not_smart_parkingBoy_park_car() {
+        ParkingLot secondParkingLot = new ParkingLot(2, CAPACITY);
+        serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
+        parkingBoy.park(new Car());
+        Assert.assertNotNull(parkingLot.getCarBySlotNumber(0));
+        Assert.assertNull(secondParkingLot.getCarBySlotNumber(0));
+
+        for (int count = 0; count < CAPACITY; count++) {
+            parkingBoy.park(new Car());
+        }
+
+        Assert.assertTrue(parkingLot.isFull());
+        Assert.assertNotNull(secondParkingLot.getCarBySlotNumber(0));
     }
 }

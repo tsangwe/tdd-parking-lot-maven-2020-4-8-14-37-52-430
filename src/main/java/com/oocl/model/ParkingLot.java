@@ -26,9 +26,6 @@ public class ParkingLot {
 
     public Car returnCar(int slotNumber) {
         Car car = slots[slotNumber];
-        if (car == null) {
-            System.out.println("Invalid ticket");
-        }
         slots[slotNumber] = null;
         return car;
     }
@@ -46,11 +43,11 @@ public class ParkingLot {
     }
 
     public int getCapacity() {
-        return capacity;
+        return this.capacity;
     }
 
     public boolean isFull() {
-        for (int slotNumber = 0; slotNumber < capacity; slotNumber++) {
+        for (int slotNumber = 0; slotNumber < getCapacity(); slotNumber++) {
             if (slots[slotNumber] == null) {
                 return false;
             }
