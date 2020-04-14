@@ -5,12 +5,14 @@ import com.oocl.util.customException.ParkingLotIsFullException;
 public class ParkingLot {
     private int id;
     private int capacity;
+    private int remainingSpaceCount;
     private Car[] slots;
 
 
     public ParkingLot(int id, int capacity) {
         this.id = id;
         this.capacity = capacity;
+        this.remainingSpaceCount = capacity;
         slots = new Car[capacity];
     }
 
@@ -18,6 +20,7 @@ public class ParkingLot {
         for (int slotNumber = 0; slotNumber < capacity; slotNumber++) {
             if (slots[slotNumber] == null) {
                 slots[slotNumber] = car;
+                this.remainingSpaceCount--;
                 return new ParkingTicket(this.id, slotNumber);
             }
         }
@@ -27,6 +30,7 @@ public class ParkingLot {
     public Car returnCar(int slotNumber) {
         Car car = slots[slotNumber];
         slots[slotNumber] = null;
+        this.remainingSpaceCount++;
         return car;
     }
 
@@ -47,26 +51,14 @@ public class ParkingLot {
     }
 
     public boolean isFull() {
-        for (int slotNumber = 0; slotNumber < getCapacity(); slotNumber++) {
-            if (slots[slotNumber] == null) {
-                return false;
-            }
-        }
-        return true;
+        return remainingSpaceCount <= 0;
     }
 
     public int getEmptySpaceCount() {
-        int countEmptySpace = 0;
-        for (int slotNumber = 0; slotNumber < getCapacity(); slotNumber++) {
-            if (slots[slotNumber] == null) {
-                countEmptySpace++;
-            }
-        }
-        return countEmptySpace;
+        return remainingSpaceCount;
     }
 
     public double computerAvailablePositionRate() {
-        double temp = this.getEmptySpaceCount() / (double) this.getCapacity();
-        return temp;
+        return this.getEmptySpaceCount() / (double) this.getCapacity();
     }
 }
