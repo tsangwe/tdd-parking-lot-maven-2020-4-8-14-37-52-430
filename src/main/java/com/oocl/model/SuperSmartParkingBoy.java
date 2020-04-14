@@ -5,10 +5,6 @@ import com.oocl.util.customException.ParkingLotIsFullException;
 import java.util.Comparator;
 
 public class SuperSmartParkingBoy extends ParkingBoy {
-    public SuperSmartParkingBoy() {
-        super();
-    }
-
     @Override
     protected ParkingLot selectParkingLot() throws ParkingLotIsFullException {
         ParkingLot selectedParkingLots = this.parkingLots.stream()
