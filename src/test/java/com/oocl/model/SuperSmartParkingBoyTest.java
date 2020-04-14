@@ -19,26 +19,17 @@ public class SuperSmartParkingBoyTest {
 
     @Before
     public void init() {
-        parkingBoy = new SmartParkingBoy();
+        parkingBoy = new SuperSmartParkingBoy();
         firstParkingLot = new ParkingLot(1, CAPACITY);
         secondParkingLot = new ParkingLot(2, CAPACITY);
         serviceManager = new ServiceManager();
     }
 
     @Test
-    public void select_firstParkingLot_when_firstParkingLot_has_higher_position_ratio_as_lower_capacity() throws ParkingLotIsFullException {
-        secondParkingLot = new ParkingLot(2, CAPACITY - 1);
+    public void select_firstParkingLot_when_both_parkingLot_are_same() throws ParkingLotIsFullException {
         serviceManager.assignParkingLotToParkingBoy(parkingBoy, firstParkingLot);
         serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
         Assert.assertEquals(firstParkingLot, parkingBoy.selectParkingLot());
-    }
-
-    @Test
-    public void select_secondParkingLot_when_secondParkingLot_has_higher_position_ratio_as_lower_capacity() throws ParkingLotIsFullException {
-        secondParkingLot = new ParkingLot(2, CAPACITY + 1);
-        serviceManager.assignParkingLotToParkingBoy(parkingBoy, firstParkingLot);
-        serviceManager.assignParkingLotToParkingBoy(parkingBoy, secondParkingLot);
-        Assert.assertEquals(secondParkingLot, parkingBoy.selectParkingLot());
     }
 
     @Test

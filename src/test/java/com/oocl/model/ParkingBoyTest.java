@@ -43,7 +43,7 @@ public class ParkingBoyTest {
             parkingBoy.park(new Car());
         }
         ParkingTicket parkingTicket = parkingBoy.park(new Car());
-        Assert.assertEquals(null, parkingTicket);
+        Assert.assertNull(parkingTicket);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ParkingBoyTest {
     @Test
     public void should_return_null_when_parkingBoy_fetch_with_invalid_ticket() {
         Car returnedCar = parkingBoy.fetch(new ParkingTicket(1, 2));
-        Assert.assertEquals(null, returnedCar);
+        Assert.assertNull(returnedCar);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ParkingBoyTest {
         ParkingTicket parkingTicket = parkingBoy.park(carToPark);
         Car returnedCar = parkingBoy.fetch(parkingTicket);
         Car returnedCar2 = parkingBoy.fetch(parkingTicket);
-        Assert.assertEquals(null, returnedCar2);
+        Assert.assertNull(returnedCar2);
     }
 
     @Test

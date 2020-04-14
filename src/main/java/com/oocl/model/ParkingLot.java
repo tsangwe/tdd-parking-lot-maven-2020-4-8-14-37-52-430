@@ -14,11 +14,11 @@ public class ParkingLot {
         slots = new Car[capacity];
     }
 
-    public Integer park(Car car) throws ParkingLotIsFullException {
+    public ParkingTicket park(Car car) throws ParkingLotIsFullException {
         for (int slotNumber = 0; slotNumber < capacity; slotNumber++) {
             if (slots[slotNumber] == null) {
                 slots[slotNumber] = car;
-                return slotNumber;
+                return new ParkingTicket(this.id, slotNumber);
             }
         }
         throw new ParkingLotIsFullException();
@@ -66,6 +66,7 @@ public class ParkingLot {
     }
 
     public double computerAvailablePositionRate() {
-        return this.getEmptySpaceCount() / (double) this.getCapacity();
+        double temp = this.getEmptySpaceCount() / (double) this.getCapacity();
+        return temp;
     }
 }
